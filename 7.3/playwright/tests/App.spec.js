@@ -1,22 +1,25 @@
-const { test, expect } = require("@playwright/test");
+const { test, expect } = require ('@playwright/test');
+const { email, password, invalidPassword } = require ('../user');
+const { loginNetology } = "https://netology.ru/?modal=sign_in";
 
-test("test", async ({ page }) => {
-  // Go to https://netology.ru/free/management#/
-  await page.goto("https://netology.ru/free/management#/");
+test('validLoginUser', async ({ page }) => {
+  await page.goto(loginNetology);
+  await page.getByRole('textbox', { name: 'Email' }).click();
+  await page.getByRole('textbox', { name: 'Email' }).fill(email);
+  await page.getByRole('textbox', { name: 'Пароль' }).click();
+  await page.getByRole('textbox', { name: 'Пароль' }).fill(password);
+  await page.getByTestId('login-submit-btn').click();
 
-  // Click a
-  await page.click("a");
-  await expect(page).toHaveURL("https://netology.ru/");
+  await expect(page.url('https://netology.ru/profile/9330256')).toBe('https://netology.ru/profile/9330256');
+});
 
-  // Click text=Учиться бесплатно
-  await page.click("text=Учиться бесплатно");
-  await expect(page).toHaveURL("https://netology.ru/free");
+test('invalidLoginUser', async ({ page }) => {
+  await page.goto(loginNetology);
+  await page.getByRole('textbox', { name: 'Email' }).click();
+  await page.getByRole('textbox', { name: 'Email' }).fill(email);
+  await page.getByRole('textbox', { name: 'Пароль' }).click();
+  await page.getByRole('textbox', { name: 'Пароль' }).fill(invalidPassword);
+  await page.getByTestId('login-submit-btn').click();
 
-  page.click("text=Бизнес и управление");
-
-  // Click text=Как перенести своё дело в онлайн
-  await page.click("text=Как перенести своё дело в онлайн");
-  await expect(page).toHaveURL(
-    "https://netology.ru/programs/kak-perenesti-svoyo-delo-v-onlajn-bp"
-  );
+  await  expect (page.getByTestId('login-error-hint')).toHaveText("Вы ввели неправильно логин или пароль.");
 });

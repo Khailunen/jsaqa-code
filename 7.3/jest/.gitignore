@@ -18,5 +18,4 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 
-/user.js
-e2e
+coverage/
