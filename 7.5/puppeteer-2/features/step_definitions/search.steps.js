@@ -77,7 +77,7 @@ When("user cannot book tickets {string} at 11:00", async function (string) {
 Then("user cannot receive the tickets because they are booked", async function () {
   await this.page.click("div:nth-child(4) span:nth-child(4)");
   await this.page.click("div:nth-child(4) span:nth-child(5)");
-  const actual = await button(this.page, "button[class='acceptin-button'][disabled='true']");
+  const actual = await button(this.page, "button[disabled]");
   const expected = true;
   expect(actual).to.equal(expected);
 });

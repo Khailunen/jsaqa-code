@@ -27,8 +27,9 @@ module.exports = {
   },
 
   button:  async function (page, selector) {
+    const disabledButton = await page.$('button[disabled]');
     try {
-      if (selector === "button[class='acceptin-button'][disabled='true']")
+      if (disabledButton !== null)
        return true
     } catch (error) {
       throw new Error(`Selector is clickable: ${selector}`);

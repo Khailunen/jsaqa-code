@@ -48,7 +48,7 @@ describe("Booking tickets", () => {
     await clickElement(page, ".movie-seances__time[href='#'][data-seance-id='198']");
     await page.click("div:nth-child(3) span:nth-child(3)");
     await page.click("div:nth-child(3) span:nth-child(2)");
-    const actual = await button(this.page, "button[class='acceptin-button'][disabled='true']"); 
+    const actual = await button(this.page, "button[disabled]"); 
     expect(actual).toBeTruthy(expected);
   });
 })
