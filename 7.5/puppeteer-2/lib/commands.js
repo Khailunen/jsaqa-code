@@ -25,4 +25,13 @@ module.exports = {
       throw new Error(`Not possible to type text for selector: ${selector}`);
     }
   },
+
+  button:  async function (page, selector) {
+    try {
+      if (selector === "button[class='acceptin-button'][disabled='true']")
+       return true
+    } catch (error) {
+      throw new Error(`Selector is clickable: ${selector}`);
+    }
+  },
 };

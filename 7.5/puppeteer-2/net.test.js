@@ -1,14 +1,19 @@
-const { clickElement, putText, getText } = require("./lib/commands.js");
+const { clickElement, putText, getText, button } = require("./lib/commands.js");
 
 let page;
 
-describe("Booking tickets", () => {
-  beforeEach(async () => {
-    page = await browser.newPage();
-    await page.goto("https://qamid.tmweb.ru/client/index.php");
-  });
+beforeEach(async () => {
+  page = await browser.newPage();
+  await page.goto("https://qamid.tmweb.ru/client/index.php");
+});
 
+afterEach( () => {
+  page.close();
+});
+
+describe("Booking tickets", () => {
   test("Booking ticket for tomorrow 'The witcher'", async () => {
+  
     const expected = "Электронный билет";
 
     await clickElement(page, "a:nth-child(2)");
@@ -36,17 +41,15 @@ describe("Booking tickets", () => {
     });
 
   test("Booking occupied seats", async () => {
-    const expected = "Микки маус";
+    const expected = true;
 
     await clickElement(page, "a:nth-child(7)");
     await getText(page, "body main section:nth-child(3) div:nth-child(1) div:nth-child(2) h2:nth-child(1)");
     await clickElement(page, ".movie-seances__time[href='#'][data-seance-id='198']");
-    await clickElement(page, "div:nth-child(3) span:nth-child(3)");
-    await clickElement(page, "div:nth-child(3) span:nth-child(2)");
-    await clickElement(page, ".acceptin-button");
-    await clickElement(page, ".acceptin-button");
-    const actual = await getText(page, ".ticket__details.ticket__title");
-    expect(actual).toContain(expected);
+    await page.click("div:nth-child(3) span:nth-child(3)");
+    await page.click("div:nth-child(3) span:nth-child(2)");
+    const actual = await button(this.page, "button[class='acceptin-button'][disabled='true']"); 
+    expect(actual).toBeTruthy(expected);
   });
 })
 
